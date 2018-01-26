@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product name:</strong>
+  <%= @product.product_name %>
+</p>
+
+<p>
+  <strong>Avg rating:</strong>
+  <%= @product.avg_rating %>
+</p>
+
+<p>
+  <strong>Asin:</strong>
+  <%= @product.asin %>
+</p>
+
+<%= link_to 'Edit', edit_product_path(@product) %> |
+<%= link_to 'Back', products_path %>
