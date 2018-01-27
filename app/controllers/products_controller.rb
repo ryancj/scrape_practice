@@ -10,7 +10,6 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
-    @review = Review.new
   end
 
   # GET /products/new
@@ -79,12 +78,15 @@ class ProductsController < ApplicationController
       rating = review_data.search("i[data-hook='review-star-rating']").text
       review_header = review_data.search("a[data-hook='review-title']").text
       review_body = review_data.search("div[data-hook='review-collapsed']").text
-      {
-        reviewer: reviewer,
-        rating: rating,
-        review_header: review_header,
-        review_body: review_body
-      }
+
+      review_params = params.permit(:review_header, :reviewer, :rating, :review_body)
+      @review = Review.new(review_params)
+      @review.reviewer = reviewer
+      @review.rating = rating
+      @review.review_header = review_header
+      @review.review_body = review_body
+      @review.product = @product
+      @review.save
     end
 
     product.unshift({avg_rating: avg_rating})

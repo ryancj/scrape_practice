@@ -27,23 +27,7 @@
   <hr>
 <% end %>
 
-<%= form_for [@product, @review] do |f| %>
-  <div>
-    <%= f.label :review_header %>
-    <%= f.text_field :review_header %>
-    <br>
-    <%= f.label :reviewer %>
-    <%= f.text_field :reviewer %>
-    <br>
-    <%= f.label :rating %>
-    <%= f.text_field :rating %>
-    <br>
-    <%= f.label :review_body %>
-    <%= f.text_area :review_body %>
-    <br>
-  </div>
-  <%= f.submit %>
-<% end %>
+
 
 <br><br>
 <%= link_to 'Edit', edit_product_path(@product) %> |
