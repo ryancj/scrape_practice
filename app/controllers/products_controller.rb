@@ -69,30 +69,37 @@ class ProductsController < ApplicationController
 
     product_name = page.at('span#productTitle').text.strip
     avg_rating = page.at("i[data-hook='average-star-rating']").text
-    reviews = page.search("div[data-hook='review']") #Find top reviews on page
-
-    product = reviews.map do |review|
-      review_data = review.search('.a-row')
-
-      reviewer = review_data.search('span.a-profile-name').text
-      rating = review_data.search("i[data-hook='review-star-rating']").text
-      review_header = review_data.search("a[data-hook='review-title']").text
-      review_body = review_data.search("div[data-hook='review-collapsed']").text
-
-      @review = Review.new(review_params)
-      @review.reviewer = reviewer
-      @review.rating = rating
-      @review.review_header = review_header
-      @review.review_body = review_body
-      @review.product = @product
-      @review.save
-    end
-
-    product.unshift({avg_rating: avg_rating})
-    product.unshift({product_name: product_name})
+    total_reviews = page.search("span[data-hook='total-review-count']").text
 
     @product.product_name = product_name
     @product.avg_rating  = avg_rating
+    @product.total_reviews  = total_reviews
+
+    reviews = page.search("div[data-hook='review']") #Find top reviews on page
+
+    all_reviews = reviews.map do |review|
+      review_data = review.search('.a-row')
+
+      reviewer = review_data.search('span.a-profile-name').text
+      avatar = review.search('.a-profile-avatar img')[1].attribute('src').value
+      rating = review_data.search("i[data-hook='review-star-rating']").text[0..2]
+      review_header = review_data.search("a[data-hook='review-title']").text
+      date = review.search("span[data-hook='review-date']").text
+      review_body = review_data.search("div[data-hook='review-collapsed']").text
+      type_and_verified = review.search(".a-row.review-format-strip").text
+
+      @review = Review.new(review_params)
+      @review.reviewer = reviewer
+      @review.avatar = avatar
+      @review.rating = rating
+      @review.review_header = review_header
+      @review.date = date
+      @review.review_body = review_body
+      @review.type_and_verified = type_and_verified
+
+      @review.product = @product
+      @review.save
+    end
   end
 
   private

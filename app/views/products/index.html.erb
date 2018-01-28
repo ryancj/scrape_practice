@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Product name</th>
+      <th>Total reviews</th>
       <th>Avg rating</th>
       <th>Asin</th>
       <th colspan="3"></th>
@@ -16,6 +17,7 @@
     <% @products.each do |product| %>
       <tr>
         <td><%= product.product_name %></td>
+        <td><%= product.total_reviews %></td>
         <td><%= product.avg_rating %></td>
         <td><%= product.asin %></td>
         <td><%= link_to 'Show', product %></td>
