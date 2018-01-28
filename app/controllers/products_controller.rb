@@ -79,7 +79,6 @@ class ProductsController < ApplicationController
       review_header = review_data.search("a[data-hook='review-title']").text
       review_body = review_data.search("div[data-hook='review-collapsed']").text
 
-      review_params = params.permit(:review_header, :reviewer, :rating, :review_body)
       @review = Review.new(review_params)
       @review.reviewer = reviewer
       @review.rating = rating
@@ -105,5 +104,9 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(:product_name, :avg_rating, :asin)
+    end
+
+    def review_params
+      params.permit(:review_header, :reviewer, :rating, :review_body)
     end
 end
